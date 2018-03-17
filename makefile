@@ -19,7 +19,7 @@ $(SOURCE4).o:
 $(SOURCE5).o:
 	g++ -g -Wall -std=c++14 $(SOURCE5).cpp -c
 test1: all
-	./predictors ../traces/short_trace1.txt short_trace1.txt
+	./predictors ../traces/short_trace1.txt short_trace1_output.txt
 test2: all
 	./predictors ../traces/long_trace1.txt long_trace1.txt
 clean:

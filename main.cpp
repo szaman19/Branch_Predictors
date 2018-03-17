@@ -12,6 +12,7 @@ unsigned long AlwaysTaken(vector<string> trace){
   string line;
   unsigned long correct = 0;
   for(int i =0; i < trace.size(); i++){
+    line = trace[i];
     if(line[11] == 'T'){
       correct++;
     }
@@ -22,6 +23,7 @@ unsigned long AlwaysNotTaken(vector <string> trace){
   string line;
   unsigned long correct = 0;
   for(int i =0; i < trace.size(); i++){
+    line = trace[i];
     if(line[11] != 'T'){
       correct++;
     }
@@ -54,22 +56,25 @@ int main(int argc, char *argv[]) {
   output_file <<taken << "," << notTaken + taken <<";"<<'\n';
   output_file << notTaken << "," << notTaken + taken <<";" << '\n';
   //OneBitBimodal
-  for(int i = 16; i < 2049; i*=2){
+  for(int i = 16; i < 1025; i*=2){
     if(i == 64) continue;
     output_file <<OneBitBimodal(trace,i)<<"," << notTaken + taken <<"; ";
   }
+  output_file <<OneBitBimodal(trace,2048)<<"," << notTaken + taken <<";";
   output_file <<"\n";
 
   //TwoBitBimodal
-  for(int i = 16; i < 2049; i*=2){
+  for(int i = 16; i < 1025; i*=2){
     if(i == 64) continue;
     output_file <<TwoBitBimodal(trace,i)<<"," << notTaken + taken <<"; ";
   }
+  output_file <<TwoBitBimodal(trace,2048)<<"," << notTaken + taken <<";";
   output_file <<"\n";
   //GShare
-  for(int i = 3; i < 12; i++){
+  for(int i = 3; i < 11; i++){
     output_file <<GShare(trace,i) << "," << notTaken + taken <<"; ";
   }
+  output_file <<GShare(trace,11) << "," << notTaken + taken <<";";
   output_file <<"\n";
   output_file << Tournament(trace)<<"," << notTaken + taken <<";"<<'\n';
   output_file.close();
