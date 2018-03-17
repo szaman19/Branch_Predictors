@@ -3,7 +3,7 @@
 #include <fstream>
 #include <cmath>
 #include <vector>
-
+#include "perceptron.h"
 using namespace std;
 
 unsigned long OneBitBimodal(char *argv[],int size){
@@ -231,30 +231,28 @@ unsigned long Tournament(char  *argv[]){
       */
 /* Ok from segfaults */
 
-    if(GSharePrediction && BiModalPrediction){
-      correct++;
-    }else if (!GSharePrediction && BiModalPrediction){
-      if(selector[bindex] < 2){
-        selector[bindex]++;
-      }else{
+      if(GSharePrediction && BiModalPrediction){
         correct++;
-        if(selector[bindex] != 3){
+      }else if (!GSharePrediction && BiModalPrediction){
+        if(selector[bindex] < 2){
           selector[bindex]++;
+        }else{
+          correct++;
+          if(selector[bindex] != 3){
+            selector[bindex]++;
+          }
         }
       }
-    }
-    else if(GSharePrediction && !BiModalPrediction){
-      if(selector[bindex] < 2){
-        correct++;
-        if(selector[bindex]!=0){
+      else if(GSharePrediction && !BiModalPrediction){
+        if(selector[bindex] < 2){
+          correct++;
+          if(selector[bindex]!=0){
+            selector[bindex]--;
+          }
+        }else{
           selector[bindex]--;
         }
-      }else{
-        selector[bindex]--;
       }
-    }
-
-
     }
     trace_file.close();
   }
@@ -286,162 +284,44 @@ int main(int argc, char *argv[]) {
       }
       trace_file.close();
     }
-
+    // unsigned int num = Perceptron(argv);
+    // double Misprediction =  (double)((taken + notTaken) - num)/ (double)(taken + notTaken) * 100;
+    // cout <<num  << ',' << taken+notTaken<<";"<< '\n';
+    // cout << "Misprediction Rate: "<< Misprediction<< "\% \n";
     ofstream output_file;
     output_file.open(argv[2], ios::trunc);
-    output_file <<"Input file name: "<< argv[1] << '\n';
     output_file <<taken << "," << notTaken + taken <<";"<<'\n';
     output_file << notTaken << "," << notTaken + taken <<";" << '\n';
 
-    /*
-    One-bit bimodal test with table size 16
-    */
-
-
-  // trace_file.open(argv[1]);
-	// if(trace_file.is_open()){
-	// 	while(getline(trace_file,line)){
-	// 		address = stoul(line.substr(0,10),nullptr, 16);
-  //     index = address % 32;
-  //     result = (line[11] == 'T');
-  //     if(table[index] == result){
-  //       correct ++;
-  //     }else{
-  //       if(table[index]){
-  //         table[index] = false;
-  //       }else{
-  //         table [index] = true;
-  //       }
-  //     }
-	// 	}
-  //   trace_file.close();
-	// }
-
-
-
-  // output_file <<
-  //  OneBitBimodal(argv,16) << "," << notTaken + taken <<"; "<<
-  //  OneBitBimodal(argv,32) << "," << notTaken + taken <<"; "<<
-  //  OneBitBimodal(argv,128) << "," << notTaken + taken <<"; "<<
-  //  OneBitBimodal(argv,256) << "," << notTaken + taken <<"; "<<
-  //  OneBitBimodal(argv,512) << "," << notTaken + taken <<"; "<<
-  //  OneBitBimodal(argv,1024) << "," << notTaken + taken <<"; "<<
-  //  OneBitBimodal(argv,2048) << "," << notTaken + taken <<";"<<'\n';
-   // output_file <<
-   //  TwoBitBimodal(argv,16) << "," << notTaken + taken <<"; "<<
-   //  TwoBitBimodal(argv,32) << "," << notTaken + taken <<"; "<<
-   //  TwoBitBimodal(argv,128) << "," << notTaken + taken <<"; "<<
-   //  TwoBitBimodal(argv,256) << "," << notTaken + taken <<"; "<<
-   //  TwoBitBimodal(argv,512) << "," << notTaken + taken <<"; "<<
-   //  TwoBitBimodal(argv,1024) << "," << notTaken + taken <<"; "<<
-   //  TwoBitBimodal(argv,2048) << "," << notTaken + taken <<";"<<'\n';
-   //  output_file <<
-   //   GShare(argv,3) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,4) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,5) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,6) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,7) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,8) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,9) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,10) << "," << notTaken + taken <<"; "<<
-   //   GShare(argv,11) << "," << notTaken + taken <<";"<<'\n';
+  output_file <<
+   OneBitBimodal(argv,16) << "," << notTaken + taken <<"; "<<
+   OneBitBimodal(argv,32) << "," << notTaken + taken <<"; "<<
+   OneBitBimodal(argv,128) << "," << notTaken + taken <<"; "<<
+   OneBitBimodal(argv,256) << "," << notTaken + taken <<"; "<<
+   OneBitBimodal(argv,512) << "," << notTaken + taken <<"; "<<
+   OneBitBimodal(argv,1024) << "," << notTaken + taken <<"; "<<
+   OneBitBimodal(argv,2048) << "," << notTaken + taken <<";"<<'\n';
+   output_file <<
+    TwoBitBimodal(argv,16) << "," << notTaken + taken <<"; "<<
+    TwoBitBimodal(argv,32) << "," << notTaken + taken <<"; "<<
+    TwoBitBimodal(argv,128) << "," << notTaken + taken <<"; "<<
+    TwoBitBimodal(argv,256) << "," << notTaken + taken <<"; "<<
+    TwoBitBimodal(argv,512) << "," << notTaken + taken <<"; "<<
+    TwoBitBimodal(argv,1024) << "," << notTaken + taken <<"; "<<
+    TwoBitBimodal(argv,2048) << "," << notTaken + taken <<";"<<'\n';
+    output_file <<
+     GShare(argv,3) << "," << notTaken + taken <<"; "<<
+     GShare(argv,4) << "," << notTaken + taken <<"; "<<
+     GShare(argv,5) << "," << notTaken + taken <<"; "<<
+     GShare(argv,6) << "," << notTaken + taken <<"; "<<
+     GShare(argv,7) << "," << notTaken + taken <<"; "<<
+     GShare(argv,8) << "," << notTaken + taken <<"; "<<
+     GShare(argv,9) << "," << notTaken + taken <<"; "<<
+     GShare(argv,10) << "," << notTaken + taken <<"; "<<
+     GShare(argv,11) << "," << notTaken + taken <<";"<<'\n';
 
   output_file << Tournament(argv)<<"," << notTaken + taken <<";"<<'\n';
   output_file.close();
-
-  /*
-  2 bit BiModal
-  */
-  //
-  // correct = 0;
-  // vector<int> twoBitTable (2048,3);
-  // trace_file.open(argv[1]);
-  // if(trace_file.is_open()){
-  //
-  //   while(getline(trace_file,line)){
-  //     address = stoul(line.substr(0,10),nullptr, 16);
-  //     index = address % 2048;
-  //     result = (line[11] == 'T');
-  //
-  //     if(twoBitTable[index] > 1 && result){
-  //       correct ++;
-  //       if(twoBitTable[index] == 2){
-  //         twoBitTable[index]++;
-  //       }
-  //     }
-  //     else if(twoBitTable[index]> 1 && !result){
-  //       twoBitTable[index]--;
-  //     }
-  //     else if(twoBitTable[index] < 2 && !result){
-  //       correct++;
-  //       if(twoBitTable[index] == 1){
-  //         twoBitTable[index] --;
-  //       }
-  //     }else{
-  //       twoBitTable[index]++;
-  //     }
-  //
-  //   }
-  // trace_file.close();
-  // }
-  //
-  // output_file.open("TwoBitBimodal.txt", ios::trunc);
-  // output_file <<"Input file name: "<< argv[1] << '\n';
-  // output_file <<correct << "," << notTaken + taken <<";"<<'\n';
-  // output_file.close();
-  // cout << correct << '\n';
-  /*
-  G share
-  */
-
-  // correct = 0;
-  // vector<int> gTable (2048,3);
-  // trace_file.open(argv[1]);
-  //
-  // unsigned int gcounter = 0;
-  // if(trace_file.is_open()){
-  //
-  //   while(getline(trace_file,line)){
-  //     address = stoul(line.substr(0,10),nullptr, 16);
-  //     index = (address % 2048) ^ gcounter;
-  //     result = (line[11] == 'T');
-  //
-  //     if(gTable[index] >1 && result){
-  //       correct++;
-  //       if(gTable[index] == 2){
-  //           gTable[index]++;
-  //       }
-  //     }
-  //     else if(gTable[index] > 1 && !result){
-  //       gTable[index]--;
-  //     }
-  //     else if(gTable[index] < 2 && !result){
-  //       correct++;
-  //       if(gTable[index] == 1){
-  //           gTable[index]--;
-  //       }
-  //     }
-  //     else{
-  //       gTable[index]++;
-  //     }
-  //     gcounter = gcounter * 2;
-  //     gcounter = gcounter % 32;
-  //     if(result){
-  //       gcounter++;
-  //     }
-  //   }
-  //   trace_file.close();
-  // }
-  //
-  // output_file.open("GShare.txt", ios::trunc);
-  // output_file <<"Input file name: "<< argv[1] << '\n';
-  // output_file <<correct << "," << notTaken + taken <<";"<<'\n';
-  // output_file.close();
-
-  /*
-  Tournament Selector
-  */
-
   }
   return 0;
 }
